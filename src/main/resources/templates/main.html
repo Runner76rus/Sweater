@@ -8,15 +8,24 @@
     <h2><a href="http://localhost:8080">На главную</a></h2>
 </header>
 <body>
-<form method="post">
-    <input type="text" name="text" placeholder="Ввведите сообщение">
-    <input type="text" name="tag" placeholder="Тэг">
-    <button type="submit">Добавить</button>
-</form>
-<form method="post" action="filter">
-    <input type="text" name="filter" placeholder="Поиск по тегу">
-    <button type="submit">Найти</button>
-</form>
+<div>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+    <form method="post">
+        <input type="text" name="text" placeholder="Ввведите сообщение">
+        <input type="text" name="tag" placeholder="Тег">
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+<div>
+    <form method="post" action="filter">
+        <input type="text" name="filter" placeholder="Поиск по тегу">
+        <button type="submit">Найти</button>
+    </form>
+</div>
 <table>
     <caption>Список сообщений</caption>
     <thead>

@@ -1,6 +1,6 @@
-package com.yazgevich.sweater.repos;
+package com.yazgevich.sweater.repository;
 
-import com.yazgevich.sweater.data.Message;
+import com.yazgevich.sweater.model.Message;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

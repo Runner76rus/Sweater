@@ -1,7 +1,7 @@
-package com.yazgevich.sweater.controllers;
+package com.yazgevich.sweater.controller;
 
-import com.yazgevich.sweater.data.Message;
-import com.yazgevich.sweater.repos.MessageRepository;
+import com.yazgevich.sweater.model.Message;
+import com.yazgevich.sweater.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,20 +17,19 @@ public class GreetingController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World!") String name, Model model) {
-        model.addAttribute("name", name);
+    @GetMapping()
+    public String greeting() {
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String getAll(Model model) {
         Iterable<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("/main")
     public String add(@RequestParam String text, @RequestParam String tag, Model model) {
         Message message = new Message(text, tag);
         messageRepository.save(message);
@@ -39,7 +38,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping("filter")
+    @PostMapping("/main/filter")
     public String filter(@RequestParam String filter, Model model) {
         List<Message> messages = messageRepository.findByTag(filter);
         model.addAttribute("messages", messages);

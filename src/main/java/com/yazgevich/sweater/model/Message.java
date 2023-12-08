@@ -1,4 +1,4 @@
-package com.yazgevich.sweater.data;
+package com.yazgevich.sweater.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
