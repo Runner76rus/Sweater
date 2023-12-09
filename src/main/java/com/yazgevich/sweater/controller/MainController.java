@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     private MessageRepository messageRepository;
@@ -38,7 +38,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping("/main/filter")
+    @PostMapping("/filter")
     public String filter(@RequestParam String filter, Model model) {
         List<Message> messages = messageRepository.findByTag(filter);
         model.addAttribute("messages", messages);
