@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
     <title>Main page</title>
 </head>
 <header>
     <h3><a href="http://localhost:8080">Greeting page</a></h3>
 </header>
+
 <body>
 <div>
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
+    <span><a href="/user">User list</a> </span>
 </div>
 <div>
     <form method="post">
@@ -22,13 +27,12 @@
     </form>
 </div>
 <div>
-    <form method="post" action="filter">
-        <input type="text" name="filter" placeholder="Search by tag">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <form method="get">
+        <input type="text" name="filter" placeholder="Search by tag" th:value="${filter}">
         <button type="submit">Find</button>
     </form>
 </div>
-<table border="3">
+<table>
     <caption>List of messages</caption>
     <thead>
     <tr>
@@ -48,4 +52,5 @@
     </tbody>
 </table>
 </body>
+
 </html>

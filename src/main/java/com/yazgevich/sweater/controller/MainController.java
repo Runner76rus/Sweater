@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 public class MainController {
 
@@ -25,9 +23,15 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String getAll(Model model) {
-        Iterable<Message> messages = messageRepository.findAll();
+    public String getAll(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+        Iterable<Message> messages;
+        if (filter != null && !filter.isEmpty()) {
+            messages = messageRepository.findByTag(filter);
+        } else {
+            messages = messageRepository.findAll();
+        }
         model.addAttribute("messages", messages);
+        model.addAttribute("filter", filter);
         return "main";
     }
 
@@ -38,13 +42,6 @@ public class MainController {
         Message message = new Message(text, tag, user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
-        model.addAttribute("messages", messages);
-        return "main";
-    }
-
-    @PostMapping("/filter")
-    public String filter(@RequestParam String filter, Model model) {
-        List<Message> messages = messageRepository.findByTag(filter);
         model.addAttribute("messages", messages);
         return "main";
     }
