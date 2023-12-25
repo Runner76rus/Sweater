@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="parts/head :: meta"></div>
     <title>Hello</title>
 </head>
 
 <body>
-<p>Hello, user!</p>
-<a href="/main">Main page</a>
+<header th:replace="parts/head :: header"></header>
+
+<div class="container mt-5">
+    <h5>Hello, guest!</h5>
+    <div>This is a simple clone Twitter</div>
+</div>
+
 </body>
 
 </html>

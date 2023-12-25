@@ -2,57 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <div th:replace="parts/head :: meta"></div>
     <title>Main page</title>
 </head>
-<header>
-    <h3><a href="http://localhost:8080">Greeting page</a></h3>
-</header>
 
 <body>
-<div>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <span><a href="/user">User list</a> </span>
+<header th:replace="parts/head :: header"></header>
+<div th:replace="parts/head :: logout"></div>
+
+<div class="container">
+    <h5>Home</h5>
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" name="text" placeholder="Enter your message">
+            <input type="text" name="tag" placeholder="Tag">
+            <input type="file" name="file">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <div>
+        <form method="get">
+            <input type="text" name="filter" placeholder="Search by tag" th:value="${filter}">
+            <button type="submit">Find</button>
+        </form>
+    </div>
+    <table>
+        <caption>List of messages</caption>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Message</th>
+            <th>Tag</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="message : ${messages}">
+            <td><span th:text="${message.id}"></span></td>
+            <td><span th:text="${message.message}"></span></td>
+            <td><span th:text="${message.tag}"></span></td>
+            <td><span th:text="${message.authorName}"></span></td>
+            <td th:if="${message.fileName!=null}"><img th:src="@{/img/{image}(image=${message.fileName})}" alt="file">
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<div>
-    <form method="post" enctype="multipart/form-data">
-        <input type="text" name="text" placeholder="Enter your message">
-        <input type="text" name="tag" placeholder="Tag">
-        <input type="file" name="file">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <button type="submit">Add</button>
-    </form>
-</div>
-<div>
-    <form method="get">
-        <input type="text" name="filter" placeholder="Search by tag" th:value="${filter}">
-        <button type="submit">Find</button>
-    </form>
-</div>
-<table>
-    <caption>List of messages</caption>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Message</th>
-        <th>Tag</th>
-        <th>Author</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="message : ${messages}">
-        <td><span th:text="${message.id}"></span></td>
-        <td><span th:text="${message.message}"></span></td>
-        <td><span th:text="${message.tag}"></span></td>
-        <td><span th:text="${message.authorName}"></span></td>
-        <td th:if="${message.fileName!=null}"><img th:src="@{/img/{image}(image=${message.fileName})}" alt="file"></td>
-    </tr>
-    </tbody>
-</table>
 </body>
 
 </html>

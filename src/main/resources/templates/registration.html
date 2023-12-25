@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+
 <head>
-    <title>Spring Security Example </title>
+    <div th:replace="parts/head :: meta"></div>
+    <title>Registration</title>
 </head>
+
 <body>
+<header th:replace="parts/head :: header"></header>
+
 <h3><a href="http://localhost:8080">Greeting page</a></h3>
 <h2>Registration</h2>
 <div th:if="${param.error}">

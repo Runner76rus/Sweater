@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="parts/head :: meta"></div>
     <title>User edit</title>
 </head>
 
 <body>
-<div>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <span><a href="/user">User list</a> </span>
-</div>
+<header th:replace="parts/head :: header"></header>
+<div th:replace="parts/head :: logout"></div>
 
 <form action="/user" method="post">
     <input type="text" th:field="${user.username}">

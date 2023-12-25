@@ -2,23 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css">
+    <div th:replace="parts/head :: meta"></div>
     <title>Users</title>
 </head>
 
 <body>
-<header>
-    <h3><a href="http://localhost:8080">Greeting page</a></h3>
-</header>
-<!-- logout -->
-<div>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <span><a href="/user">User list</a> </span>
-</div>
+<header th:replace="parts/head :: header"></header>
+<div th:replace="parts/head :: logout"></div>
 
 <h2>List of Users</h2>
 <table class="list">
