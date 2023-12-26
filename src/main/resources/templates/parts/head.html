@@ -43,18 +43,16 @@
                         <a class="nav-link active" aria-current="page" href="/user">User List</a>
                     </li>
                 </ul>
-                <div class="navbar-text" sec:authorize="isAuthenticated()">
+                <div class="navbar-text me-3" sec:authorize="isAuthenticated()">
                     <span th:text="${#authentication.name}"></span>
                 </div>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-primary" type="submit">Sign Out</button>
+                </form>
             </div>
         </div>
     </nav>
 </header>
 
-<div class="container" th:fragment="logout">
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-</div>
 </body>
 </html>
