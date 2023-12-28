@@ -9,9 +9,9 @@
 <body>
 <header th:replace="parts/head :: header"></header>
 
-<div>
+<div class="container mt-5">
     <h2>List of Users</h2>
-    <table class="list">
+    <table class="table">
         <thead>
         <tr>
             <th>User</th>
@@ -21,8 +21,10 @@
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.username}"></td>
-            <td th:each="role : ${user.roles}">
-                <span th:text="${role} + ' '"></span>
+            <td>
+                <p th:each="role : ${user.roles}">
+                    <span th:text="${role} + ' '"></span>
+                </p>
             </td>
             <td>
                 <a th:href="@{'/user/' + ${user.id}}">Edit</a>
