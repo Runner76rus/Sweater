@@ -48,18 +48,18 @@ public class MainController {
     public String add(@AuthenticationPrincipal User user,
                       @RequestParam String text,
                       @RequestParam String tag,
-                      @RequestParam MultipartFile file,
+                      @RequestParam MultipartFile image,
                       Model model) throws IOException {
         Message message = new Message(text, tag, user);
 
-        if (!file.isEmpty() && !file.getOriginalFilename().isEmpty()) {
+        if (!image.isEmpty() && !image.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
             String uuidFileName = UUID.randomUUID().toString();
-            String resultFileName = uuidFileName + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
+            String resultFileName = uuidFileName + "." + image.getOriginalFilename();
+            image.transferTo(new File(uploadPath + "/" + resultFileName));
             message.setFileName(resultFileName);
         }
         messageRepository.save(message);

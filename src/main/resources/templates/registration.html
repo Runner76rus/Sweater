@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+
 <head>
-    <title>Spring Security Example </title>
+    <div th:replace="parts/head :: meta"></div>
+    <title>Registration</title>
 </head>
+
 <body>
-<h3><a href="http://localhost:8080">Greeting page</a></h3>
-<h2>Registration</h2>
-<div th:if="${param.error}">
-    Invalid username and password.
+<header th:replace="parts/head :: header"></header>
+<div class="container mt-5">
+    <a href="/login">Sign in</a>
+
+    <h2>Registration</h2>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+
+    <p>Add new user</p>
+    <div th:if="${message!=null}">
+        <p th:text="${message}"></p>
+    </div>
+    <form th:action="@{/registration}" method="post">
+        <div th:replace="parts/login::form"></div>
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<a href="/login">Sign in</a>
-<p>Add new user</p>
-<div th:if="${message!=null}">
-    <p th:text="${message}"></p>
-</div>
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    <div><input type="submit" value="Sign Up"/></div>
-</form>
 </body>
+
 </html>
