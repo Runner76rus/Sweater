@@ -20,11 +20,15 @@ import java.util.UUID;
 @Controller
 public class MainController {
 
-    @Autowired
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
+
+    @Autowired
+    public MainController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     @GetMapping()
     public String greeting() {

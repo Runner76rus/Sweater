@@ -17,11 +17,15 @@
     </div>
 
     <p>Add new user</p>
-    <div th:if="${message!=null}">
-        <p th:text="${message}"></p>
+    <div th:if="${message!=null}" th:text="${message}">
+
     </div>
     <form th:action="@{/registration}" method="post">
-        <div th:replace="parts/login::form"></div>
+        <div th:replace="~{parts/login::form}"></div>
+        <div class="mb-3">
+            <label class="form-label col-sm-1">Email :</label>
+            <input class="form-control-sm-6" type="email" name="email" placeholder="example@mail.ru"/>
+        </div>
         <button class="btn btn-primary" type="submit">Sign Up</button>
     </form>
 </div>

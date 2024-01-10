@@ -10,7 +10,9 @@
 <header th:replace="parts/head :: header"></header>
 
 <div class="container mt-5">
+
     <h5>Home</h5>
+
     <form method="get">
         <div class="row">
             <div class="col">
@@ -23,7 +25,8 @@
     </form>
 
     <div class="mt-3">
-        <div class="mb-3">
+
+    <div class="mb-3">
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#form-new-msg"
                     aria-expanded="true" aria-controls="form-new-msg">
                 Add new message
@@ -52,6 +55,7 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </form>
         </div>
+
     </div>
 
     <div class="row row-cols-1 row-cols-md-auto gap-4">
@@ -61,7 +65,9 @@
             </div>
             <div class="card-body">
                 <p class="card-text" th:text="${message.message}"></p>
-                <p class="card-text" th:text="${message.tag}"></p>
+                <p class="card-text">
+                    #<span th:text="${message.tag}"></span>
+                </p>
             </div>
             <div class="card-footer">
                 <span th:text="${message.authorName}"></span>
