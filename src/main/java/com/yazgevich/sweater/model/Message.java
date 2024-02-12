@@ -1,6 +1,8 @@
 package com.yazgevich.sweater.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Message {
@@ -8,7 +10,10 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String message;
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 2048, message = "Message too long")
+    private String text;
+    @Length(max = 255, message = "Tag too long")
     private String tag;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -16,12 +21,6 @@ public class Message {
     private String fileName;
 
     public Message() {
-    }
-
-    public Message(String message, String tag, User user) {
-        this.author = user;
-        this.message = message;
-        this.tag = tag;
     }
 
     public String getFileName() {
@@ -52,12 +51,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String message) {
+        this.text = message;
     }
 
     public String getTag() {

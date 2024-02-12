@@ -26,19 +26,31 @@
 
     <div class="mt-3">
 
-    <div class="mb-3">
+        <div class="mb-3">
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#form-new-msg"
                     aria-expanded="true" aria-controls="form-new-msg">
                 Add new message
             </button>
         </div>
 
-        <div class="collapse mb-5" id="form-new-msg" style="">
+        <div th:class="'collapse ' + (${message!=null} ? 'show') + ' mb-5'" id="form-new-msg" style="">
             <form method="post" enctype="multipart/form-data">
                 <!--msg & tag-->
                 <div class="input-group mb-3 gap-3">
-                    <input class="form-control" type="text" name="text" placeholder="Enter your message">
-                    <input class="form-control" type="text" name="tag" placeholder="Tag">
+                    <div>
+                        <input type="text" th:class="'form-control' + (${textError!=null} ? ' is-invalid')"
+                               name="text" th:value="${message!=null && textError!=null} ? ${message.text}"
+                               placeholder="Enter your message">
+                        <div class="invalid-feedback" th:text="${textError}">
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" th:class="'form-control' + (${tagError!=null} ? ' is-invalid')"
+                               name="tag" th:value="${message!=null && tagError!=null}  ? ${message.tag}"
+                               placeholder="#tag">
+                        <div class="invalid-feedback" th:text="${tagError}">
+                        </div>
+                    </div>
                 </div>
                 <!--image-->
                 <div class="row justify-content-start">
@@ -64,7 +76,7 @@
                 <img th:src="@{/img/{image}(image=${message.fileName})}" class="card-img-top" alt="">
             </div>
             <div class="card-body">
-                <p class="card-text" th:text="${message.message}"></p>
+                <p class="card-text" th:text="${message.text}"></p>
                 <p class="card-text">
                     #<span th:text="${message.tag}"></span>
                 </p>
