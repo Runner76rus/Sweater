@@ -9,10 +9,10 @@
 <body>
 <header th:replace="~{parts/head :: header}"></header>
 
-<div class="container mt-5 ">
+<div class="container mt-5">
 
-    <h5>Login page</h5>
-    <div class="mb-1 text-danger" th:if="${param.error}">
+    <h2>Login page</h2>
+    <div class="alert alert-danger" role="alert" th:if="${param.error}">
         Invalid username or password.
     </div>
     <div th:if="${param.logout}">

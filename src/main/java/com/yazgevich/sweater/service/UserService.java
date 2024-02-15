@@ -3,6 +3,7 @@ package com.yazgevich.sweater.service;
 import com.yazgevich.sweater.model.Role;
 import com.yazgevich.sweater.model.User;
 import com.yazgevich.sweater.repository.UserRepository;
+import com.yazgevich.sweater.util.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,18 +35,36 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public boolean addUser(User user) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
-        if (userFromDb != null) {
-            return false;
-        }
+
+    public void addUser(User user) {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         sendActivationCode(user);
 
         userRepository.save(user);
-        return true;
+    }
+
+    public Map<String, String> getErrors(BindingResult bindingResult, User user) {
+        Map<String, String> errors = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            errors = ControllerUtils.getErrors(bindingResult);
+        }
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+            errors.put("passwordError", "Passwords are different");
+        }
+        if (exists(user)) {
+            errors.put("usernameError", "User already exists");
+        }
+        return errors;
+    }
+
+    public boolean exists(User user) {
+        User userFromDb = userRepository.findByUsername(user.getUsername());
+        if (userFromDb != null) {
+            return true;
+        }
+        return false;
     }
 
     private void sendActivationCode(User user) {

@@ -6,13 +6,25 @@
 </head>
 <body>
 <div th:fragment="form">
-    <div class="mb-2">
-        <label class="form-label col-sm-1">User Name :</label>
-        <input class="form-control-sm-6" type="text" name="username" placeholder="User name"/>
+    <div class="row mb-2">
+        <label class="col-form-label col-sm-2" for="username">User Name :</label>
+        <div class="col-md-5">
+            <input type="text" th:class="'form-control col' + (${usernameError!=null} ? ' is-invalid')"
+                   id="username" name="username"
+                   th:value="${user!=null && usernameError!=null} ? ${user.username}"
+                   placeholder="Enter your username">
+            <div class="invalid-feedback" th:text="${usernameError}"></div>
+        </div>
     </div>
-    <div class="mb-2">
-        <label class="form-label col-sm-1">Password :</label>
-        <input class="form-control-sm-6" type="password" name="password" placeholder="Password"/>
+    <div class="row mb-2">
+        <label class="col-form-label col-sm-2">Password :</label>
+        <div class="col-md-5">
+            <input type="password"
+                   th:class="'form-control col' + (${passwordError!=null} ? ' is-invalid')"
+                   name="password"
+                   placeholder="Enter your password">
+            <div class="invalid-feedback" th:text="${passwordError}"></div>
+        </div>
     </div>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 </div>

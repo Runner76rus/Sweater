@@ -41,15 +41,13 @@
                         <input type="text" th:class="'form-control' + (${textError!=null} ? ' is-invalid')"
                                name="text" th:value="${message!=null && textError!=null} ? ${message.text}"
                                placeholder="Enter your message">
-                        <div class="invalid-feedback" th:text="${textError}">
-                        </div>
+                        <div class="invalid-feedback" th:text="${textError}"></div>
                     </div>
                     <div>
                         <input type="text" th:class="'form-control' + (${tagError!=null} ? ' is-invalid')"
                                name="tag" th:value="${message!=null && tagError!=null}  ? ${message.tag}"
                                placeholder="#tag">
-                        <div class="invalid-feedback" th:text="${tagError}">
-                        </div>
+                        <div class="invalid-feedback" th:text="${tagError}"></div>
                     </div>
                 </div>
                 <!--image-->
