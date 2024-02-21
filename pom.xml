@@ -17,13 +17,18 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+        <!-- bootstrap -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>5.3.2</version>
         </dependency>
-
+        <!-- hibernate validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
         <!-- thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,7 +39,11 @@
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
             <version>3.1.2.RELEASE</version>
         </dependency>
-
+        <!-- spring-boot-starter-mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
         <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,6 +56,7 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -56,13 +66,11 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.0</version>
         </dependency>
         <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>3.2.0</version>
         </dependency>
         <!-- security -->
         <dependency>
@@ -80,7 +88,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -105,6 +117,18 @@
                     <release>${java.version}</release>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/sweater</url>
+                    <user>postgres</user>
+                    <password>am4669102</password>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>

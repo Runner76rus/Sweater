@@ -2,15 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="parts/head :: meta"></div>
+    <div th:replace="~{parts/head :: meta}"></div>
     <title>Main page</title>
 </head>
 
 <body>
-<header th:replace="parts/head :: header"></header>
+<header th:replace="~{parts/head :: header}"></header>
 
 <div class="container mt-5">
+
     <h5>Home</h5>
+
     <form method="get">
         <div class="row">
             <div class="col">
@@ -23,6 +25,7 @@
     </form>
 
     <div class="mt-3">
+
         <div class="mb-3">
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#form-new-msg"
                     aria-expanded="true" aria-controls="form-new-msg">
@@ -30,12 +33,22 @@
             </button>
         </div>
 
-        <div class="collapse mb-5" id="form-new-msg" style="">
+        <div th:class="'collapse ' + (${message!=null} ? 'show') + ' mb-5'" id="form-new-msg" style="">
             <form method="post" enctype="multipart/form-data">
                 <!--msg & tag-->
                 <div class="input-group mb-3 gap-3">
-                    <input class="form-control" type="text" name="text" placeholder="Enter your message">
-                    <input class="form-control" type="text" name="tag" placeholder="Tag">
+                    <div>
+                        <input type="text" th:class="'form-control' + (${textError!=null} ? ' is-invalid')"
+                               name="text" th:value="${message!=null && textError!=null} ? ${message.text}"
+                               placeholder="Enter your message">
+                        <div class="invalid-feedback" th:text="${textError}"></div>
+                    </div>
+                    <div>
+                        <input type="text" th:class="'form-control' + (${tagError!=null} ? ' is-invalid')"
+                               name="tag" th:value="${message!=null && tagError!=null}  ? ${message.tag}"
+                               placeholder="#tag">
+                        <div class="invalid-feedback" th:text="${tagError}"></div>
+                    </div>
                 </div>
                 <!--image-->
                 <div class="row justify-content-start">
@@ -52,6 +65,7 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </form>
         </div>
+
     </div>
 
     <div class="row row-cols-1 row-cols-md-auto gap-4">
@@ -60,8 +74,10 @@
                 <img th:src="@{/img/{image}(image=${message.fileName})}" class="card-img-top" alt="">
             </div>
             <div class="card-body">
-                <p class="card-text" th:text="${message.message}"></p>
-                <p class="card-text" th:text="${message.tag}"></p>
+                <p class="card-text" th:text="${message.text}"></p>
+                <p class="card-text">
+                    #<span th:text="${message.tag}"></span>
+                </p>
             </div>
             <div class="card-footer">
                 <span th:text="${message.authorName}"></span>
