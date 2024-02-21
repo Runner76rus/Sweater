@@ -4,6 +4,7 @@ import com.yazgevich.sweater.model.Role;
 import com.yazgevich.sweater.model.User;
 import com.yazgevich.sweater.repository.UserRepository;
 import com.yazgevich.sweater.util.ControllerUtils;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,26 +46,24 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public Map<String, String> getErrors(BindingResult bindingResult, User user) {
+    public Map<String, String> getErrors(BindingResult bindingResult, User user, String password2) {
         Map<String, String> errors = new HashMap<>();
-        if (bindingResult.hasErrors()) {
-            errors = ControllerUtils.getErrors(bindingResult);
-        }
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+        if (password2 == null) {
+            errors.put("password2Error", "Password confirmation cannot be empty");
+        } else if (user.getPassword() != null && !user.getPassword().equals(password2)) {
             errors.put("passwordError", "Passwords are different");
         }
-        if (exists(user)) {
+        if (bindingResult.hasErrors()) {
+            errors.putAll(ControllerUtils.getErrors(bindingResult));
+        } else if (exists(user)) {
             errors.put("usernameError", "User already exists");
         }
         return errors;
     }
 
-    public boolean exists(User user) {
+    private boolean exists(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
-        if (userFromDb != null) {
-            return true;
-        }
-        return false;
+        return userFromDb != null;
     }
 
     private void sendActivationCode(User user) {
@@ -74,12 +73,15 @@ public class UserService implements UserDetailsService {
             String message = String.format("""
                             Hello, %s!
                             Please, visit next link:
-                             http://localhost:8080/activate/%s\s
+                             <a href="http://localhost:8080/activate/%s">Confirm your account</a>\s
                              """,
                     user.getUsername(),
                     user.getActivationCode());
-
-            mailSender.send(user.getEmail(), "Activation code", message);
+            try {
+                mailSender.send(user.getEmail(), "Activation code", message);
+            } catch (MessagingException e) {
+                System.out.println(e.getCause().getMessage());
+            }
         }
     }
 
