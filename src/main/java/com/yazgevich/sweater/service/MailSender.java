@@ -1,8 +1,11 @@
 package com.yazgevich.sweater.service;
 
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +22,13 @@ public class MailSender {
         this.mailSender = mailSender;
     }
 
-    public void send(String mailTo, String subject, String message) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        mailMessage.setFrom(userName);
-        mailMessage.setTo(mailTo);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
-
-        mailSender.send(mailMessage);
+    public void send(String mailTo, String subject, String message) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        mimeMessage.setText(message, "utf-8", "html");
+        mimeMessage.setFrom(userName);
+        mimeMessage.setSubject(subject);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
+        mailSender.send(mimeMessage);
     }
 
 }
