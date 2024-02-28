@@ -35,13 +35,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/registration", "/activate/*").permitAll()
+                        .requestMatchers("/", "/registration", "/activate/*")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .permitAll()
-                )
+                        .permitAll())
+                .rememberMe(remember -> remember.key("Blablabla"))
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
