@@ -1,5 +1,5 @@
 
-# Switer
+# Sweater
 
 This small application is a clone of twitter
 
